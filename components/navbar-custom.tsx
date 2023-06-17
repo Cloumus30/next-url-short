@@ -1,28 +1,36 @@
 'use client';
 
 import { Navbar } from 'flowbite-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function NavbarCust(){
-    const [colorChange, setColorChange] = useState(false);
-    const changeNavbarColor = () =>{
-      if(window.scrollY > 150){
-        setColorChange(true);
-      }else{
-        setColorChange(false);
-      }
-    }
+  const [colorChange, setColorChange] = useState(false);
 
+  // Change Color When SCrolling
+  const changeNavbarColor = () =>{
+    if(window.scrollY > 150){
+      setColorChange(true);
+    }else{
+      setColorChange(false);
+    }
+  }
+
+  // Add Scroll event listener, use effect to access window
+  useEffect(()=>{
     window.addEventListener('scroll', changeNavbarColor);
+    return () => {
+        window.removeEventListener('scroll', changeNavbarColor)
+    }
+  })
 
     return(
         <Navbar
-        className={(colorChange ? 'md:bg-white' : 'md:bg-transparent text-white') + ' bg-white border-gray-200 dark:bg-gray-900 fixed w-full transition ease-in-out duration-300'}
+        className={(colorChange ? 'md:bg-white' : 'md:bg-transparent md:text-white') + ' bg-white border-gray-200 dark:bg-gray-900 fixed w-full transition ease-in-out duration-300'}
       >
         <Navbar.Brand
         href="/"
       >
-        <span className="text-4xl font-semibold whitespace-nowrap">
+        <span className="text-xl md:text-4xl font-semibold whitespace-nowrap">
           Flowbite React
         </span>
       </Navbar.Brand>
